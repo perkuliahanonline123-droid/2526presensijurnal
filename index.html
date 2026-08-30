@@ -371,7 +371,8 @@
       updateJam();
       
       // URL Web App Anda (yang mengeluarkan JSON)
-      const scriptUrl = "https://script.google.com/macros/s/AKfycbwp7uCVekSOdM2JWwIm9qzBOsv3ZSy_W6JLDIQ8wxbZ_bgN39c5xSkAl5VZ0Hv10Ajn/exec";
+      // Tambahkan ?action=getDashboardData di akhir URL
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbwp7uCVekSOdM2JWwIm9qzBOsv3ZSy_W6JLDIQ8wxbZ_bgN39c5xSkAl5VZ0Hv10Ajn/exec?action=getDashboardData";
       
       try {
         const response = await fetch(scriptUrl);
