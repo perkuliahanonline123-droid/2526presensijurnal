@@ -364,24 +364,27 @@
     }
 
     // ==========================================
-    // PERUBAHAN UTAMA: FETCH API JSON 
-    // Menggantikan fungsi google.script.run
+    // PERUBAHAN UTAMA: FETCH API JSON DENGAN POST
     // ==========================================
     window.onload = async function() {
       updateJam();
       
-      // URL Web App Anda (yang mengeluarkan JSON)
-      // Tambahkan ?action=getDashboardData di akhir URL
-      const scriptUrl = "https://script.google.com/macros/s/AKfycbwp7uCVekSOdM2JWwIm9qzBOsv3ZSy_W6JLDIQ8wxbZ_bgN39c5xSkAl5VZ0Hv10Ajn/exec?action=getDashboardData";
+      const scriptUrl = "https://script.google.com/macros/s/AKfycbwp7uCVekSOdM2JWwIm9qzBOsv3ZSy_W6JLDIQ8wxbZ_bgN39c5xSkAl5VZ0Hv10Ajn/exec";
       
       try {
-        const response = await fetch(scriptUrl);
+        const response = await fetch(scriptUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8', 
+          },
+          body: JSON.stringify({ action: "getDashboardData" })
+        });
+        
         const result = await response.json();
         
         if (result.status === "success") {
           populateData(result.data);
         } else {
-          // Menampilkan pesan error dari backend
           document.getElementById('loading').innerHTML = `
             <div class="text-rose-500 mb-4"><i class="fas fa-exclamation-circle text-4xl"></i></div>
             <h3 class="text-lg md:text-xl font-bold text-slate-800">Gagal Memuat Data</h3>
@@ -389,7 +392,6 @@
           `;
         }
       } catch (err) {
-        // Menampilkan pesan error koneksi
         document.getElementById('loading').innerHTML = `
           <div class="text-rose-500 mb-4"><i class="fas fa-wifi text-4xl"></i></div>
           <h3 class="text-lg md:text-xl font-bold text-slate-800">Kesalahan Jaringan</h3>
